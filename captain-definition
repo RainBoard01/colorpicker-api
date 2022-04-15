@@ -1,4 +1,12 @@
 {
-	"schemaVersion": 2,
-	"templateId": "node/16.13.0"
+  "schemaVersion": 2,
+  "dockerfileLines": [
+    "FROM node:16",
+    "WORKDIR /app",
+    "COPY package.json ./",
+    "RUN npm install",
+    "COPY . .",
+    "EXPOSE 3001",
+    "CMD [\"npm\", \"start\", \"--host\", \"0.0.0.0\"]"
+  ]
 }
