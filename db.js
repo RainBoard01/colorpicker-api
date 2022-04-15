@@ -12,6 +12,7 @@ const db = mongoist(`mongodb://${user}:${pwd}@${host}:${port}/${dbN}`, {
   useNewUrlParser: true,
   authSource: dbN,
 });
+console.log(`mongodb://${user}:${pwd}@${host}:${port}/${dbN}`);
 
 // Emitted if no db connection could be established
 db.on("error", function (err) {
