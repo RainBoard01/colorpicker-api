@@ -13,4 +13,16 @@ const db = mongoist(`mongodb://${user}:${pwd}@${host}:${port}/${dbN}`, {
   authSource: dbN,
 });
 
+// Emitted if no db connection could be established
+db.on("error", function (err) {
+  console.log("database error", err);
+});
+
+// Emitted if a db connection was established
+db.on("connect", function () {
+  console.log("database connected");
+});
+
+await db.listCollections();
+
 export default db;
