@@ -1,0 +1,46 @@
+type Color {
+  name: ID!
+
+  # The document's ID.
+  _id: ID!
+  color: String!
+  palette: Palette!
+
+  # The document's timestamp.
+  _ts: Long!
+}
+
+# Allow manipulating the relationship between the types 'Color' and 'Palette' using the field 'Color.palette'.
+input ColorPaletteRelation {
+  # Create a document of type 'Palette' and associate it with the current document.
+  create: PaletteInput
+
+  # Connect a document of type 'Palette' with the current document using its ID.
+  connect: ID
+}
+
+# 'Color' input values
+input ColorInput {
+  name: ID!
+  color: String!
+  palette: ColorPaletteRelation
+}
+
+# 'Color' input values
+input PartialUpdateColorInput {
+  name: ID
+  color: String
+  palette: ColorPaletteRelation
+}
+
+# The pagination object for elements of type 'Color'.
+type ColorPage {
+  # The elements of type 'Color' in this page.
+  data: [Color]!
+
+  # A cursor for elements coming after the current page.
+  after: String
+
+  # A cursor for elements coming before the current page.
+  before: String
+}

@@ -1,0 +1,9 @@
+type Query {
+  # Find a document from the collection of 'Palette' by its id.
+  findPaletteByID(
+    # The 'Palette' document's ID
+    id: ID!
+  ): Palette
+
+  allPalettes: [Palette]
+}

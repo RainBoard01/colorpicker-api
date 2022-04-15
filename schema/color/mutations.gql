@@ -1,0 +1,31 @@
+type Mutation {
+  # Create a new document in the collection of 'Color'
+  createColor(
+    # 'Color' input values
+    data: ColorInput!
+  ): Color!
+
+  # Update an existing document in the collection of 'Color'
+  updateColor(
+    # The 'Color' document's ID
+    id: ID!
+
+    # 'Color' input values
+    data: ColorInput!
+  ): Color
+
+  # Partially updates an existing document in the collection of 'Color'. It only modifies the values that are specified in the arguments. During execution, it verifies that required fields are not set to 'null'.
+  partialUpdateColor(
+    # The 'Color' document's ID
+    id: ID!
+
+    # 'Color' input values
+    data: PartialUpdateColorInput!
+  ): Color
+
+  # Delete an existing document in the collection of 'Color'
+  deleteColor(
+    # The 'Color' document's ID
+    id: ID!
+  ): Color
+}

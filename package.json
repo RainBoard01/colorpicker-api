@@ -1,0 +1,19 @@
+{
+  "name": "colorpicker-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "repository": "https://github.com/RainBoard01/colorpicker-api.git",
+  "author": "rainboard01 <amdmsi4ever@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "fastify": "^3.28.0",
+    "graphql": "^16.3.0",
+    "mercurius": "^9.3.6",
+    "mongoist": "^2.5.4"
+  },
+  "scripts": {
+    "start": "node --experimental-specifier-resolution=node index"
+  }
+}

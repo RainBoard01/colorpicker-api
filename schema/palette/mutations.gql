@@ -1,0 +1,31 @@
+type Mutation {
+  # Create a new document in the collection of 'Palette'
+  createPalette(
+    # 'Palette' input values
+    data: PaletteInput!
+  ): Palette!
+
+  # Update an existing document in the collection of 'Palette'
+  updatePalette(
+    # The 'Palette' document's ID
+    id: ID!
+
+    # 'Palette' input values
+    data: PaletteInput!
+  ): Palette
+
+  # Partially updates an existing document in the collection of 'Palette'. It only modifies the values that are specified in the arguments. During execution, it verifies that required fields are not set to 'null'.
+  partialUpdatePalette(
+    # The 'Palette' document's ID
+    id: ID!
+
+    # 'Palette' input values
+    data: PartialUpdatePaletteInput!
+  ): Palette
+
+  # Delete an existing document in the collection of 'Palette'
+  deletePalette(
+    # The 'Palette' document's ID
+    id: ID!
+  ): Palette
+}
