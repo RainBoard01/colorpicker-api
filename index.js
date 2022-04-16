@@ -17,4 +17,4 @@ fastify.get("/", async function (req, reply) {
   return reply.send("GraphQL Server Fastify-Mercurius");
 });
 
-fastify.listen(3001);
+fastify.listen(3001, "0.0.0.0");
