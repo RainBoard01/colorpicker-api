@@ -2,6 +2,7 @@ import Fastify from "fastify";
 import mercurius from "mercurius";
 import schema from "./schema";
 import resolvers from "./resolvers";
+import fastifyCors from "fastify-cors";
 
 const fastify = Fastify({
   logger: true,
@@ -13,8 +14,8 @@ fastify.register(mercurius, {
   graphiql: true,
 });
 
-fastify.get("/", async function (req, reply) {
-  return reply.send("GraphQL Server Fastify-Mercurius");
+fastify.register(fastifyCors, {
+  origin: false,
 });
 
 fastify.listen(3001, "0.0.0.0");
