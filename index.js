@@ -16,6 +16,8 @@ fastify.register(mercurius, {
 
 fastify.register(fastifyCors, {
   origin: false,
+  methods: "POST",
+  allowedHeaders: "Content-Type,Accept",
 });
 
 fastify.listen(3001, "0.0.0.0");
