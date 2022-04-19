@@ -1,0 +1,7 @@
+type User {
+  id: ID! @auth(requires: ADMIN)
+  username: String!
+  email: String!
+  password: String! @auth(requires: ADMIN)
+  role: String!
+}

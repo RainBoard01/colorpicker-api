@@ -1,12 +1,8 @@
 type Color {
   name: ID!
-
-  # The document's ID.
-  _id: ID!
+  _id: ID! @auth(requires: ADMIN)
   color: String!
   palette: Palette!
-
-  # The document's timestamp.
   _ts: Long!
 }
 
@@ -31,16 +27,4 @@ input PartialUpdateColorInput {
   name: ID
   color: String
   palette: ColorPaletteRelation
-}
-
-# The pagination object for elements of type 'Color'.
-type ColorPage {
-  # The elements of type 'Color' in this page.
-  data: [Color]!
-
-  # A cursor for elements coming after the current page.
-  after: String
-
-  # A cursor for elements coming before the current page.
-  before: String
 }

@@ -1,10 +1,12 @@
 import { paletteQueries, paletteMutations } from "./paletteResolvers";
 import { colorQueries, colorMutations } from "./colorResolvers";
+import { userQueries } from "./userResolvers";
 
 const queries = {
   Query: {
     ...paletteQueries,
     ...colorQueries,
+    ...userQueries,
   },
 };
 

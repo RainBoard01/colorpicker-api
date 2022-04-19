@@ -1,12 +1,9 @@
 type Palette {
-  # The document's ID.
-  _id: ID!
+  _id: ID! @auth(requires: ADMIN)
   paletteName: String!
   colors: [Color]
   id: ID!
   emoji: String!
-
-  # The document's timestamp.
   _ts: Long!
 }
 
@@ -36,16 +33,4 @@ input PartialUpdatePaletteInput {
   id: ID
   emoji: String
   colors: PaletteColorsRelation
-}
-
-# The pagination object for elements of type 'Palette'.
-type PalettePage {
-  # The elements of type 'Palette' in this page.
-  data: [Palette]!
-
-  # A cursor for elements coming after the current page.
-  after: String
-
-  # A cursor for elements coming before the current page.
-  before: String
 }

@@ -1,23 +1,56 @@
 import Fastify from "fastify";
 import mercurius from "mercurius";
+import mercuriusAuth from "mercurius-auth";
 import schema from "./schema";
 import resolvers from "./resolvers";
 import fastifyCors from "fastify-cors";
+import jwt from "jsonwebtoken";
 
-const fastify = Fastify({
-  logger: true,
-});
+const fastify = Fastify({ logger: true });
 
-fastify.register(mercurius, {
-  schema,
-  resolvers,
-  graphiql: true,
-});
+fastify
+  .register(mercurius, {
+    schema,
+    resolvers,
+    graphiql: true,
+  })
+  .register(fastifyCors, {
+    origin: "*",
+    methods: "GET,PUT,POST,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type,Authorization",
+  })
+  .register(mercuriusAuth, {
+    authContext(context) {
+      return { identity: context.reply.request.headers["x-user"] };
+    },
+    async applyPolicy(authDirectiveAST, parent, args, context, info) {
+      const token = context.auth.identity;
+      try {
+        const claim = jwt.verify(token, "awadeowo");
+        if (
+          claim.role === "ADMIN" ||
+          authDirectiveAST.arguments[0].value.value === "USER"
+        ) {
+          return true;
+        }
+      } catch (error) {
+        throw new Error(`An error occurred. Try again!`);
+      }
+    },
+    authDirective: "auth",
+  });
 
-fastify.register(fastifyCors, {
-  origin: "*",
-  methods: "GET,PUT,POST,DELETE,OPTIONS",
-  allowedHeaders: "Content-Type,Accept",
-});
+const start = async () => {
+  try {
+    await fastify.listen(3001, "0.0.0.0", () =>
+      console.log("Server running on port 3001")
+    );
+  } catch (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+};
 
-fastify.listen(3001, "0.0.0.0");
+start();
+
+export { fastify };

@@ -1,28 +1,17 @@
 import mongoist from "mongoist";
 import dotenv from "dotenv";
 dotenv.config();
+const { DB_USER, DB_PWD, DB_HOST, DB_PORT, DB_DBN } = process.env;
 
-const user = process.env.DB_USER;
-const pwd = process.env.DB_PWD;
-const host = process.env.DB_HOST;
-const port = process.env.DB_PORT;
-const dbN = process.env.DB_DBN;
+const connectionString = `mongodb://${DB_USER}:${DB_PWD}@${DB_HOST}:${DB_PORT}/${DB_DBN}`;
 
-const db = mongoist(`mongodb://${user}:${pwd}@${host}:${port}/${dbN}`, {
+const db = mongoist(connectionString, {
   useNewUrlParser: true,
-  authSource: dbN,
+  authSource: DB_DBN,
 });
-console.log(`mongodb://${user}:${pwd}@${host}:${port}/${dbN}`);
-
-// Emitted if no db connection could be established
-db.on("error", function (err) {
-  console.log("database error", err);
-});
-
-// Emitted if a db connection was established
-db.on("connect", function () {
-  console.log("database connected");
-});
+db.on("error", (err) => console.log("Database error", err)).on("connect", () =>
+  console.log("Database connected")
+);
 
 await db.listCollections();
 
