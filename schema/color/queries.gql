@@ -1,9 +1,5 @@
 type Query {
-  # Find a document from the collection of 'Color' by its id.
-  findColorByID(
-    # The 'Color' document's ID
-    id: ID!
-  ): Color
+  findColorByID(id: ID!): Color
 
   allColors: [Color]
 }

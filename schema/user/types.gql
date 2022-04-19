@@ -1,7 +1,38 @@
 type User {
-  id: ID! @auth(requires: ADMIN)
+  _id: ID! @auth(requires: ADMIN)
   username: String!
   email: String!
   password: String! @auth(requires: ADMIN)
   role: String!
+  palettes: [Palette]
+}
+
+# Allow manipulating the relationship between the types 'User' and 'Palette'.
+input UserPaletteRelation {
+  # Create one or more documents of type 'Palette' and associate them with the current document.
+  create: [Palette]
+
+  # Connect one or more documents of type 'Palette' with the current document using their IDs.
+  connect: [ID]
+
+  # Disconnect the given documents of type 'Palette' from the current document using their IDs.
+  disconnect: [ID]
+}
+
+# 'User' input values
+input UserInput {
+  username: String!
+  email: String!
+  password: String!
+  role: String!
+  palettes: UserPaletteRelation
+}
+
+# 'User' input values
+input PartialUpdateUserInput {
+  username: String
+  email: String
+  password: String
+  role: String
+  palettes: UserPaletteRelation
 }

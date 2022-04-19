@@ -16,6 +16,7 @@ const colorQueries = {
       ])
       .then((res) => res)
       .catch((err) => console.log(err)),
+
   findColorByID: async (root, id) =>
     await db.colors
       .findOne({ _id: ObjectId(id.id) })
@@ -37,6 +38,7 @@ const colorMutations = {
       .then((res) => res)
       .catch((err) => console.log(err));
   },
+
   updateColor: async (root, id, newColor) =>
     await db.colors
       .findAndModify({

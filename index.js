@@ -27,9 +27,11 @@ fastify
       const token = context.auth.identity;
       try {
         const claim = jwt.verify(token, "awadeowo");
+        const requiredRole = authDirectiveAST.arguments[0].value.value;
         if (
           claim.role === "ADMIN" ||
-          authDirectiveAST.arguments[0].value.value === "USER"
+          (claim.role === "USER" && requiredRole === "USER") ||
+          requestRole === "GUEST"
         ) {
           return true;
         }

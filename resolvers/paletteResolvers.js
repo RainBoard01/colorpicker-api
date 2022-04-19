@@ -16,6 +16,7 @@ const paletteQueries = {
       ])
       .then((res) => res)
       .catch((err) => console.log(err)),
+
   findPaletteByID: async (root, id) =>
     await db.palettes
       .findOne({ _id: ObjectId(id.id) })
@@ -40,6 +41,7 @@ const paletteMutations = {
       .then((res) => res)
       .catch((err) => console.log(err));
   },
+
   updatePalette: async (root, id, newPalette) =>
     await db.palettes
       .findAndModify({
@@ -54,10 +56,14 @@ const paletteMutations = {
       })
       .then((res) => res)
       .catch((err) => console.log(err)),
+
   deletePalette: async (root, id) => {
     await db.colors.remove({ palette: ObjectId(id.id) });
     return await db.palettes
-      .findAndModify({ query: { _id: ObjectId(id.id) }, remove: true })
+      .findAndModify({
+        query: { _id: ObjectId(id.id) },
+        remove: true,
+      })
       .then((res) => res)
       .catch((err) => console.log(err));
   },

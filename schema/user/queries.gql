@@ -1,5 +1,7 @@
 type Query {
-  user(username: String!): User! @auth(requires: USER)
-  users: [User]! @auth(requires: ADMIN)
+  user(username: String!): User @auth(requires: USER)
+
+  users: [User] @auth(requires: ADMIN)
+
   login(username: String!, password: String!): String
 }

@@ -19,6 +19,15 @@ input PaletteColorsRelation {
   disconnect: [ID]
 }
 
+# Allow manipulating the relationship between the types 'Palette' and 'User' using the field 'Color.palette'.
+input PaletteUserRelation {
+  # Create a document of type 'User' and associate it with the current document.
+  create: UserInput
+
+  # Connect a document of type 'User' with the current document using its ID.
+  connect: ID
+}
+
 # 'Palette' input values
 input PaletteInput {
   paletteName: String!

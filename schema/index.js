@@ -19,6 +19,7 @@ directive @auth(
 enum Role {
   ADMIN
   USER
+  GUEST
 }
 
 scalar Date

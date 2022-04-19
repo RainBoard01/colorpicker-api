@@ -1,0 +1,9 @@
+type Mutation {
+  createUser(data: UserInput!): User!
+
+  updateUser(id: ID!, data: UserInput!): User
+
+  partialUpdateUser(id: ID!, data: PartialUpdateUserInput!): User
+
+  deleteUser(id: ID!): User
+}

@@ -1,6 +1,6 @@
 type Color {
-  name: ID!
   _id: ID! @auth(requires: ADMIN)
+  name: ID!
   color: String!
   palette: Palette!
   _ts: Long!

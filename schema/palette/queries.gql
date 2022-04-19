@@ -1,4 +1,5 @@
 type Query {
   findPaletteByID(id: ID!): Palette
+
   allPalettes: [Palette] @auth(requires: ADMIN)
 }

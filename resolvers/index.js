@@ -1,6 +1,6 @@
 import { paletteQueries, paletteMutations } from "./paletteResolvers";
 import { colorQueries, colorMutations } from "./colorResolvers";
-import { userQueries } from "./userResolvers";
+import { userQueries, userMutations } from "./userResolvers";
 
 const queries = {
   Query: {
@@ -14,6 +14,7 @@ const mutations = {
   Mutation: {
     ...paletteMutations,
     ...colorMutations,
+    ...userMutations,
   },
 };
 
