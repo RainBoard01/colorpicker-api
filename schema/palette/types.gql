@@ -2,6 +2,7 @@ type Palette {
   _id: ID! @auth(requires: ADMIN)
   paletteName: String!
   colors: [Color]
+  user: User
   id: ID!
   emoji: String!
   _ts: Long!
@@ -34,6 +35,7 @@ input PaletteInput {
   id: ID!
   emoji: String!
   colors: PaletteColorsRelation
+  user: PaletteUserRelation
 }
 
 # 'Palette' input values
@@ -42,4 +44,5 @@ input PartialUpdatePaletteInput {
   id: ID
   emoji: String
   colors: PaletteColorsRelation
+  user: PaletteUserRelation
 }

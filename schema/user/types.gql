@@ -8,9 +8,9 @@ type User {
 }
 
 # Allow manipulating the relationship between the types 'User' and 'Palette'.
-input UserPaletteRelation {
+input UserPalettesRelation {
   # Create one or more documents of type 'Palette' and associate them with the current document.
-  create: [Palette]
+  create: [PaletteInput]
 
   # Connect one or more documents of type 'Palette' with the current document using their IDs.
   connect: [ID]
@@ -25,7 +25,7 @@ input UserInput {
   email: String!
   password: String!
   role: String!
-  palettes: UserPaletteRelation
+  palettes: UserPalettesRelation
 }
 
 # 'User' input values
@@ -34,5 +34,5 @@ input PartialUpdateUserInput {
   email: String
   password: String
   role: String
-  palettes: UserPaletteRelation
+  palettes: UserPalettesRelation
 }

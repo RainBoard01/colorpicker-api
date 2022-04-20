@@ -17,23 +17,23 @@ const paletteQueries = {
       .then((res) => res)
       .catch((err) => console.log(err)),
 
-  findPaletteByID: async (root, id) =>
+  findPaletteByID: async (_, { id }) =>
     await db.palettes
-      .findOne({ _id: ObjectId(id.id) })
+      .findOne({ _id: ObjectId(id) })
       .then((res) => res)
       .catch((err) => console.log(err)),
 };
 
 const paletteMutations = {
-  createPalette: async (root, newPalette) => {
+  createPalette: async (_, { data }) => {
     const newId = ObjectId();
     await db.palettes.insert({
       _id: newId,
-      paletteName: newPalette.data.paletteName,
-      id: newPalette.data.id,
-      emoji: newPalette.data.emoji,
+      paletteName: data.paletteName,
+      id: data.id,
+      emoji: data.emoji,
     });
-    const colorsWPaletteID = newPalette.data.colors.create;
+    const colorsWPaletteID = data.colors.create;
     colorsWPaletteID.map((color) => (color.palette = newId));
     await db.colors.insert(colorsWPaletteID);
     return await db.palettes
@@ -42,26 +42,26 @@ const paletteMutations = {
       .catch((err) => console.log(err));
   },
 
-  updatePalette: async (root, id, newPalette) =>
+  updatePalette: async (_, { id, data }) =>
     await db.palettes
       .findAndModify({
-        query: { _id: Object(id.id) },
+        query: { _id: Object(id) },
         update: {
-          paletteName: newPalette.data.paletteName,
-          id: newPalette.data.id,
-          emoji: newPalette.data.emoji,
-          colors: newPalette.data.colors,
+          paletteName: data.paletteName,
+          id: data.id,
+          emoji: data.emoji,
+          colors: data.colors,
         },
         new: true,
       })
       .then((res) => res)
       .catch((err) => console.log(err)),
 
-  deletePalette: async (root, id) => {
-    await db.colors.remove({ palette: ObjectId(id.id) });
+  deletePalette: async (_, { id }) => {
+    await db.colors.remove({ palette: ObjectId(id) });
     return await db.palettes
       .findAndModify({
-        query: { _id: ObjectId(id.id) },
+        query: { _id: ObjectId(id) },
         remove: true,
       })
       .then((res) => res)

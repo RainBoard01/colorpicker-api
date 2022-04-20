@@ -17,21 +17,21 @@ const colorQueries = {
       .then((res) => res)
       .catch((err) => console.log(err)),
 
-  findColorByID: async (root, id) =>
+  findColorByID: async (_, { id }) =>
     await db.colors
-      .findOne({ _id: ObjectId(id.id) })
+      .findOne({ _id: ObjectId(id) })
       .then((res) => res)
       .catch((err) => console.log(err)),
 };
 
 const colorMutations = {
-  createColor: async (root, newColor) => {
+  createColor: async (_, { data }) => {
     const newId = ObjectId();
     await db.colors.insert({
       _id: newId,
-      name: newColor.data.name,
-      color: newColor.data.color,
-      palette: ObjectId(newColor.data.palette),
+      name: data.name,
+      color: data.color,
+      palette: ObjectId(data.palette),
     });
     return await db.colors
       .findOne({ _id: newId })
@@ -39,14 +39,14 @@ const colorMutations = {
       .catch((err) => console.log(err));
   },
 
-  updateColor: async (root, id, newColor) =>
+  updateColor: async (_, { id, data }) =>
     await db.colors
       .findAndModify({
-        query: { _id: ObjectId(id.id) },
+        query: { _id: ObjectId(id) },
         update: {
-          name: newColor.data.name,
-          color: newColor.data.color,
-          palette: ObjectId(newColor.data.palette),
+          name: data.name,
+          color: data.color,
+          palette: ObjectId(data.palette),
         },
         new: true,
       })

@@ -9,7 +9,7 @@ const userQueries = {
       .then((res) => res)
       .catch((err) => console.log(err)),
 
-  user: async (_, username) =>
+  user: async (_, { username }) =>
     await db.users
       .findOne({ username: username })
       .then((res) => res)
@@ -34,14 +34,14 @@ const userQueries = {
 };
 
 const userMutations = {
-  createUser: async (_, newUser) => {
+  createUser: async (_, { data }) => {
     const newId = ObjectId();
     await db.users.insert({
       _id: newId,
-      email: newUser.data.email,
-      username: newUser.data.username,
-      password: newUser.data.password,
-      role: newUser.data.role,
+      email: data.email,
+      username: data.username,
+      password: data.password,
+      role: data.role,
     });
     return await db.users
       .findOne({ _id: newId })
@@ -49,25 +49,25 @@ const userMutations = {
       .catch((err) => console.log(err));
   },
 
-  updateUser: async (_, { id, newUser }) =>
+  updateUser: async (_, { id, data }) =>
     await db.users
       .findAndModify({
-        query: { _id: ObjectId(id.id) },
+        query: { _id: ObjectId(id) },
         update: {
-          email: newUser.data.email,
-          username: newUser.data.username,
-          password: newUser.data.password,
-          role: newUser.data.role,
+          email: data.email,
+          username: data.username,
+          password: data.password,
+          role: data.role,
         },
         new: true,
       })
       .then((res) => res)
       .catch((err) => console.log(err)),
 
-  deleteUser: async (_, id) =>
+  deleteUser: async (_, { id }) =>
     await db.users
       .findAndModify({
-        query: { _id: ObjectId(id.id) },
+        query: { _id: ObjectId(id) },
         remove: true,
       })
       .then((res) => res)

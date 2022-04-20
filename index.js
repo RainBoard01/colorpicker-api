@@ -17,7 +17,7 @@ fastify
   .register(fastifyCors, {
     origin: "*",
     methods: "GET,PUT,POST,DELETE,OPTIONS",
-    allowedHeaders: "Content-Type,Authorization",
+    allowedHeaders: "Content-Type,x-user",
   })
   .register(mercuriusAuth, {
     authContext(context) {
@@ -31,7 +31,7 @@ fastify
         if (
           claim.role === "ADMIN" ||
           (claim.role === "USER" && requiredRole === "USER") ||
-          requestRole === "GUEST"
+          requiredRole === "GUEST"
         ) {
           return true;
         }
@@ -54,5 +54,3 @@ const start = async () => {
 };
 
 start();
-
-export { fastify };
