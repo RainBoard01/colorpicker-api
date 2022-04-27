@@ -1,5 +1,6 @@
 import { ObjectId } from "mongoist";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import db from "../db";
 
 const userQueries = {
@@ -17,7 +18,10 @@ const userQueries = {
 
   login: async (_, { username, password }) => {
     const user = await db.users.findOne({ username: username });
-    if (username === user.username && password === user.password) {
+    const isValidPassword = await bcrypt
+      .compare(password, user.password)
+      .then((res) => res);
+    if (username === user.username && isValidPassword) {
       return jwt.sign(
         {
           username: user.username,
@@ -40,7 +44,7 @@ const userMutations = {
       _id: newId,
       email: data.email,
       username: data.username,
-      password: data.password,
+      password: await bcrypt.hash(data.password, 10).then((res) => res),
       role: data.role,
     });
     return await db.users
@@ -56,7 +60,7 @@ const userMutations = {
         update: {
           email: data.email,
           username: data.username,
-          password: data.password,
+          password: await bcrypt.hash(data.password, 10).then((res) => res),
           role: data.role,
         },
         new: true,
