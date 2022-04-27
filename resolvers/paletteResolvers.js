@@ -2,20 +2,58 @@ import { ObjectId } from "mongoist";
 import db from "../db";
 
 const paletteQueries = {
-  allPalettes: async () =>
-    await db.palettes
-      .aggregate([
-        {
-          $lookup: {
-            from: "colors",
-            localField: "_id",
-            foreignField: "palette",
-            as: "colors",
-          },
-        },
-      ])
-      .then((res) => res)
-      .catch((err) => console.log(err)),
+  allPalettes: async (_, { username }) =>
+    username
+      ? await db.palettes
+          .aggregate([
+            {
+              $lookup: {
+                from: "colors",
+                localField: "_id",
+                foreignField: "palette",
+                as: "colors",
+              },
+            },
+            {
+              $lookup: {
+                from: "users",
+                localField: "user",
+                foreignField: "_id",
+                as: "user",
+              },
+            },
+            {
+              $unwind: "$user",
+            },
+            {
+              $match: {
+                "user.username": username,
+              },
+            },
+          ])
+          .then((res) => res)
+          .catch((err) => console.log(err))
+      : await db.palettes
+          .aggregate([
+            {
+              $lookup: {
+                from: "colors",
+                localField: "_id",
+                foreignField: "palette",
+                as: "colors",
+              },
+            },
+            {
+              $lookup: {
+                from: "users",
+                localField: "user",
+                foreignField: "_id",
+                as: "user",
+              },
+            },
+          ])
+          .then((res) => res)
+          .catch((err) => console.log(err)),
   findPaletteByID: async (root, id) =>
     await db.palettes
       .findOne({ _id: ObjectId(id.id) })

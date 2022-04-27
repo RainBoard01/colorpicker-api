@@ -5,5 +5,5 @@ type Query {
     id: ID!
   ): Palette
 
-  allPalettes: [Palette]
+  allPalettes(username: ID): [Palette]
 }

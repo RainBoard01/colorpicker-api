@@ -5,5 +5,5 @@ type Query {
     id: ID!
   ): Color
 
-  allColors: [Color]
+  allColors(paletteId: ID): [Color]
 }

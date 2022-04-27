@@ -2,20 +2,42 @@ import { ObjectId } from "mongoist";
 import db from "../db";
 
 const colorQueries = {
-  allColors: async () =>
-    await db.colors
-      .aggregate([
-        {
-          $lookup: {
-            from: "palettes",
-            localField: "palette",
-            foreignField: "_id",
-            as: "palette",
-          },
-        },
-      ])
-      .then((res) => res)
-      .catch((err) => console.log(err)),
+  allColors: async (_, { paletteId }) =>
+    paletteId
+      ? await db.colors
+          .aggregate([
+            {
+              $lookup: {
+                from: "palettes",
+                localField: "palette",
+                foreignField: "_id",
+                as: "palette",
+              },
+            },
+            {
+              $unwind: "$palette",
+            },
+            {
+              $match: {
+                "palette.id": paletteId,
+              },
+            },
+          ])
+          .then((res) => res)
+          .catch((err) => console.log(err))
+      : await db.colors
+          .aggregate([
+            {
+              $lookup: {
+                from: "palettes",
+                localField: "palette",
+                foreignField: "_id",
+                as: "palette",
+              },
+            },
+          ])
+          .then((res) => res)
+          .catch((err) => console.log(err)),
   findColorByID: async (root, id) =>
     await db.colors
       .findOne({ _id: ObjectId(id.id) })
