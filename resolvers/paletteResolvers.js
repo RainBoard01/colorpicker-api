@@ -54,9 +54,9 @@ const paletteQueries = {
           ])
           .then((res) => res)
           .catch((err) => console.log(err)),
-  findPaletteByID: async (root, id) =>
+  findPaletteByID: async (root, { id }) =>
     await db.palettes
-      .findOne({ _id: ObjectId(id.id) })
+      .findOne({ id: id })
       .then((res) => res)
       .catch((err) => console.log(err)),
 };
